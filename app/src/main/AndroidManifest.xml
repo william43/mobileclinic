@@ -21,6 +21,11 @@
         <activity android:name=".MenuPrescriptions" />
         <activity android:name=".PrescriptionList" />
         <activity android:name=".Menu" />
+        <activity android:name=".MedicineSchedule"/>
+        <activity android:name=".AddSchedule"/>
+        <activity android:name=".AppointmentList"/>
+        <activity android:name=".AddAppointment"/>
+        <activity android:name=".RecordView" />
     </application>
 
 </manifest>

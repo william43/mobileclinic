@@ -26,8 +26,9 @@ public class Register extends AppCompatActivity{
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = database.getReference();
     private EditText regFname;
-    private EditText regLName;
+    private EditText regBirthday;
     private EditText regEmail;
+    private EditText regContact;
     private EditText regPass;
     private String TAG = "MYACTIVITY";
 
@@ -45,22 +46,19 @@ public class Register extends AppCompatActivity{
 
         users = new Users();
         regFname = (EditText) findViewById(R.id.regFname);
-        regLName = (EditText) findViewById(R.id.regLname);
+        regBirthday = (EditText) findViewById(R.id.regBname);
         regEmail = (EditText) findViewById(R.id.regEmail);
         regPass = (EditText) findViewById(R.id.regPass);
+        regContact = (EditText) findViewById(R.id.regContact);
         Log.i("MYACTIVITY", "Went to the Register CLass");
         btnReg = (Button) findViewById(R.id.btnReg);
         btnReg.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 if(!regFname.getText().toString().isEmpty() && !regEmail.getText().toString().isEmpty() &&
-                        !regLName.getText().toString().isEmpty() && !regPass.getText().toString().isEmpty()){
+                        !regBirthday.getText().toString().isEmpty() && !regPass.getText().toString().isEmpty()){
 
-                    getValues(regFname, regLName, regEmail, regPass);
-
-                    ArrayList<Prescriptions> tempPres = new ArrayList<>();
-                    tempPres.add(new Prescriptions("gamot 1", "aagain", "eaten", "none"));
-                    tempPres.add(new Prescriptions("gamot 2", "aagain1", "eaten1", "none1"));
+                    getValues(regFname, regBirthday, regEmail, regPass, regContact);
 
                     databaseReference.child("Users").child(users.getUsername()).setValue(users);
                     //userArray.add(users);
@@ -100,9 +98,10 @@ public class Register extends AppCompatActivity{
         });
     }
 
-    public void getValues(EditText Fname, EditText Lname, EditText username, EditText Pass){
+    public void getValues(EditText Fname, EditText regBirthday, EditText username, EditText Pass, EditText contact){
         users.setFname(Fname.getText().toString());
-        users.setLName(Lname.getText().toString());
+        users.setBirthday(regBirthday.getText().toString());
+        users.setContact(contact.getText().toString());
         users.setPassword(Pass.getText().toString());
         users.setUsername(username.getText().toString());
     }

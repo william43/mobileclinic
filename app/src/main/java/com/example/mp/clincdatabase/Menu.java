@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 /**
  * Created by waboy on 3/10/2018.
@@ -38,25 +39,29 @@ public class Menu extends AppCompatActivity {
 
             }
         });
-        btnDoctors = (Button) findViewById(R.id.btnDoctors);
+        btnDoctors = (Button) findViewById(R.id.btnIntakeSched);
         btnDoctors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(Menu.this, MedicineSchedule.class);
+                intent.putExtra("username", user);
+                startActivity(intent);
             }
         });
-        btnIntakeSched = (Button) findViewById(R.id.btnIntakeSched);
+        btnIntakeSched = (Button) findViewById(R.id.btnDoctors);
         btnIntakeSched.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(Menu.this, AppointmentList.class);
+                intent.putExtra("username", user);
+                startActivity(intent);
             }
         });
         btnNotif = (Button) findViewById(R.id.btnNotif);
         btnNotif.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(Menu.this, "Functino is still not available", Toast.LENGTH_SHORT).show();
             }
         });
 

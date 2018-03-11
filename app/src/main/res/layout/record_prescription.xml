@@ -113,19 +113,42 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="Prescription Medicine" />
-
-        <ScrollView
-            android:id="@+id/svPrescriptions"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="130dp">
+            android:layout_height="150dp">
 
-            <TableLayout
-                android:id="@+id/table_prescriptions"
-                android:layout_width="wrap_content"
+
+            <ScrollView
+                android:id="@+id/scrollView1"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"></TableLayout>
+                android:background="#3d455b"
+                android:layout_alignParentLeft="true" >
 
-        </ScrollView>
+                <HorizontalScrollView
+                    android:id="@+id/hscrll1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <RelativeLayout
+                        android:id="@+id/RelativeLayout1"
+                        android:layout_width="fill_parent"
+                        android:layout_gravity="center"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical" >
+
+                        <TableLayout
+                            android:id="@+id/table_prescriptino"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true" >
+                        </TableLayout>
+                    </RelativeLayout>
+                </HorizontalScrollView>
+            </ScrollView>
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

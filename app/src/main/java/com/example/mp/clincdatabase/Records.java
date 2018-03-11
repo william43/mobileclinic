@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class Records {
 
     private String physician;
-    private String[] updatedDate;
     private ArrayList<Prescriptions> prescriptions;
     private ArrayList<String> allergies;
     private ArrayList<String> drug_plan;
@@ -22,20 +21,11 @@ public class Records {
         this.physician = physician;
     }
 
-    public Records(String[] updatedDate, ArrayList<Prescriptions> prescriptions, ArrayList<String> allergies, ArrayList<String> drug_plan, String physician) {
-        this.updatedDate = updatedDate;
+    public Records(ArrayList<Prescriptions> prescriptions, ArrayList<String> allergies, ArrayList<String> drug_plan, String physician) {
         this.prescriptions = prescriptions;
         this.allergies = allergies;
         this.drug_plan = drug_plan;
         this.physician = physician;
-    }
-
-    public String[] getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(String[] updatedDate) {
-        this.updatedDate = updatedDate;
     }
 
     public ArrayList<Prescriptions> getPrescriptions() {

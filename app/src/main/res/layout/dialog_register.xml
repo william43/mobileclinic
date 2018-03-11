@@ -23,16 +23,25 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:ems="10"
-            android:hint="first name"
+            android:hint="full name"
             android:inputType="textEmailAddress" />
 
         <EditText
-            android:id="@+id/regLname"
+            android:id="@+id/regBname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:ems="10"
-            android:hint="last name"
+            android:hint="Birthday"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/regContact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="Contact Number"
             android:inputType="textEmailAddress" />
 
         <EditText

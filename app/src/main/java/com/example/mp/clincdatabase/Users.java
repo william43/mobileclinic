@@ -9,39 +9,40 @@ import java.util.ArrayList;
 public class Users {
 
     private String Fname;
-    private String LName;
     private String password;
     private String username;
+    private String birthday;
     private String userID;
+    private String contact;
     private ArrayList<Records> records;
 
     public Users(){
 
     }
 
-    public Users(String fname, String LName, String password, String username, String userID, ArrayList<Records> records) {
-        Fname = fname;
-        this.LName = LName;
+    public Users(String fname, String birthday, String contact, String password, String username, String userID, ArrayList<Records> records) {
+        this.Fname = fname;
+        this.birthday = birthday;
+        this.contact = contact;
         this.password = password;
         this.username = username;
         this.userID = userID;
         this.records = records;
     }
 
+    public String getContact() { return contact; }
+
+    public void setContact(String contact) { this.contact = contact; }
+
+    public String getBirthday() { return birthday; }
+
+    public void setBirthday(String birthday) { this.birthday = birthday; }
     public String getFname(){
         return Fname;
     }
 
     public void setFname(String fname) {
         Fname = fname;
-    }
-
-    public String getLName() {
-        return LName;
-    }
-
-    public void setLName(String LName) {
-        this.LName = LName;
     }
 
     public String getPassword() {
