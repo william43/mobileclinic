@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "247910388593",
+    "firebase_url": "https://clinic-database-c9962.firebaseio.com",
+    "project_id": "clinic-database-c9962",
+    "storage_bucket": "clinic-database-c9962.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247910388593:android:3db433acec4c6f1d",
+        "android_client_info": {
+          "package_name": "com.example.mp.clincdatabase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "247910388593-a5ic0qk327j7knjr7ro428dfpbqgptn6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkJzCi6xNqiKSR9xdHhKek7XuaIPSPknc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
