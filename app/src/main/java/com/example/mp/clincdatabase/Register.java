@@ -17,9 +17,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-/**
- * Created by waboy on 3/10/2018.
- */
 
 public class Register extends AppCompatActivity{
 
@@ -64,6 +61,7 @@ public class Register extends AppCompatActivity{
                     //userArray.add(users);
 
 
+
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -88,7 +86,6 @@ public class Register extends AppCompatActivity{
 
                     Toast.makeText(Register.this,
                             "Successfully registered", Toast.LENGTH_LONG).show();
-
                 }
                 else{
                     Toast.makeText(Register.this,

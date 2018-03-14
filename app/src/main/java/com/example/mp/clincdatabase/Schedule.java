@@ -3,9 +3,6 @@ package com.example.mp.clincdatabase;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-/**
- * Created by waboy on 3/11/2018.
- */
 
 public class Schedule {
 

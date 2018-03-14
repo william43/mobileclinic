@@ -2,9 +2,6 @@ package com.example.mp.clincdatabase;
 
 import java.util.ArrayList;
 
-/**
- * Created by waboy on 3/8/2018.
- */
 
 public class Users {
 

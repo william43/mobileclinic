@@ -15,9 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-/**
- * Created by waboy on 3/10/2018.
- */
 
 public class Login extends AppCompatActivity{
 
@@ -49,20 +46,24 @@ public class Login extends AppCompatActivity{
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if(dataSnapshot.exists()) {
                                 Log.i("DATAA WAS PRESENT", "went in here" + loginUser.getText().toString());
+                                Toast.makeText(Login.this, "The Login and Password does not match", Toast.LENGTH_SHORT);
                                 userDataReference = databaseReference.child("Users");
                                 userDataReference.orderByChild("password").equalTo(loginPass.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         if(dataSnapshot.exists()) {
-                                            Log.i("DATAA WAS PASSWARD", "went in here" + loginPass.getText().toString());
+                                           // Log.i("DATAA WAS PASSWARD", "went in here" + loginPass.getText().toString(), Toast.LENGTH_SHORT).show();
+
                                             Intent intent = new Intent(Login.this, Menu.class);
                                             String user = loginUser.getText().toString();
                                             intent.putExtra("username", user);
                                             startActivity(intent);
 
                                         }
-                                        else
+                                        else{
                                             Log.i("DATAA WAS PASSWARD", "MALI WALANG MATCH");
+                                            Toast.makeText(Login.this, "The Login and Password does not match", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
 
                                     @Override

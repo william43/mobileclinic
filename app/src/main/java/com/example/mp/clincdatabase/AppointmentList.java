@@ -20,9 +20,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-/**
- * Created by waboy on 3/12/2018.
- */
 
 public class AppointmentList extends AppCompatActivity {
     private RecyclerView mRecyclerView;

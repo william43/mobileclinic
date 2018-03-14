@@ -8,9 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-/**
- * Created by waboy on 3/10/2018.
- */
 
 public class Menu extends AppCompatActivity {
 

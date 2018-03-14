@@ -2,14 +2,11 @@ package com.example.mp.clincdatabase;
 
 import java.util.ArrayList;
 
-/**
- * Created by waboy on 3/10/2018.
- */
 
 public class Records {
 
     private String physician;
-    private ArrayList<Prescriptions> prescriptions;
+    private ArrayList<Prescriptions> prescriptions = new ArrayList<>();
     private ArrayList<String> allergies;
     private ArrayList<String> drug_plan;
 

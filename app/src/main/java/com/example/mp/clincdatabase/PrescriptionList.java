@@ -16,9 +16,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-/**
- * Created by waboy on 3/10/2018.
- */
 
 public class PrescriptionList extends AppCompatActivity {
 

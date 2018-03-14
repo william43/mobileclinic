@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,9 +27,6 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-/**
- * Created by waboy on 3/10/2018.
- */
 
 public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapter.ViewHolder> {
     @NonNull
@@ -44,28 +42,59 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
         // each data item is just a string in this case
             private View mView;
             private TextView mTextView;
+            private LinearLayout mLinearLayout;
         public ViewHolder(View v) {
             super(v);
             mView = v;
 
-            userDataReference = databaseReference.child("Users").child(user);
+            userDataReference = databaseReference.child("Users").child(user).child("records");
             userDataReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     prescriptionList.clear();
                     if(dataSnapshot.exists()){
-                        for(DataSnapshot childRecord: dataSnapshot.child("records").getChildren()){
+                        for(DataSnapshot childRecord: dataSnapshot.getChildren()){
                             Records recordtemp = childRecord.getValue(Records.class);
                             prescriptionList.add(recordtemp);
                         }
-
                     }
-
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
+                    final int pos = getAdapterPosition();
+                    final String posSring = Integer.toString(pos);
+                    // check if item still exists
+                    if(pos != RecyclerView.NO_POSITION){
 
+
+                        userDataReference = databaseReference.child("Users").child(user);
+                        userDataReference.child("records").addListenerForSingleValueEvent(new ValueEventListener(){
+
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.child(posSring).child("prescriptions").exists()){
+                                    Records clickedDataItem = prescriptionList.get(pos);
+
+                                    Intent intent = new Intent(mView.getContext(), RecordView.class);
+                                    intent.putExtra("username", user);
+                                    intent.putExtra("position", pos);
+                                    context.startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(mView.getContext(), "This Record does not have any prescription", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+
+                        });
+
+
+                    }
                 }
             });
 
@@ -76,17 +105,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
             mTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int pos = getAdapterPosition();
 
-                    // check if item still exists
-                    if(pos != RecyclerView.NO_POSITION){
-                        Records clickedDataItem = prescriptionList.get(pos);
-                        Toast.makeText(mView.getContext(), "You clicked " + clickedDataItem.getPhysician() + "ME: "+user + "INDEX AT " + pos, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(mView.getContext(), RecordView.class);
-                        intent.putExtra("username", user);
-                        intent.putExtra("position", pos);
-                        context.startActivity(intent);
-                    }
                 }
             });
 
@@ -97,33 +116,32 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
                     // check if item still exists
                     if(pos != RecyclerView.NO_POSITION){
+                            Records clickedDataItem = prescriptionList.get(pos);
+                            AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
+                            View dialogView = LayoutInflater.from(context).inflate(R.layout.dialogadd_prescription, null);
+                            final EditText addMed = (EditText) dialogView.findViewById(R.id.addMed);
+                            final EditText adFrequency = (EditText) dialogView.findViewById(R.id.adFrequency);
+                            final EditText addCondition = (EditText) dialogView.findViewById(R.id.addCondition);
+                            final EditText addNotes = (EditText) dialogView.findViewById(R.id.addNotes);
+
+                            Button addPresLogin = (Button) dialogView.findViewById(R.id.addPresLogin);
+
+                            mBuilder.setView(dialogView);
+
+                            final AlertDialog dialog = mBuilder.create();
+                            dialog.show();
+                            addPresLogin.setOnClickListener(new View.OnClickListener(){
+                                @Override
+                                public void onClick(View view){
+                                    prescriptionList.get(pos).getPrescriptions().add(new Prescriptions(addMed.getText().toString(), adFrequency.getText().toString(),addCondition.getText().toString(), addNotes.getText().toString()));
 
 
-                        Records clickedDataItem = prescriptionList.get(pos);
-                        Toast.makeText(mView.getContext(), "You longclicked " + clickedDataItem.getPhysician() + "ME: "+user, Toast.LENGTH_SHORT).show();
-                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
-                        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialogadd_prescription, null);
-                        final EditText addMed = (EditText) dialogView.findViewById(R.id.addMed);
-                        final EditText adFrequency = (EditText) dialogView.findViewById(R.id.adFrequency);
-                        final EditText addCondition = (EditText) dialogView.findViewById(R.id.addCondition);
-                        final EditText addNotes = (EditText) dialogView.findViewById(R.id.addNotes);
 
-                        Button addPresLogin = (Button) dialogView.findViewById(R.id.addPresLogin);
-
-                        mBuilder.setView(dialogView);
-
-                        final AlertDialog dialog = mBuilder.create();
-                        dialog.show();
-                        addPresLogin.setOnClickListener(new View.OnClickListener(){
-                            @Override
-                            public void onClick(View view){
-                                prescriptionList.get(pos).getPrescriptions().add(new Prescriptions(addMed.getText().toString(), adFrequency.getText().toString(),addCondition.getText().toString(), addNotes.getText().toString()));
-
-                                userDataReference.child("records").setValue(prescriptionList);
-                                Toast.makeText(mView.getContext(), "GUMAGANA SIYA BITCHES", Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
-                            }
-                        });
+                                    userDataReference = databaseReference.child("Users").child(user).child("records");
+                                    userDataReference.setValue(prescriptionList);
+                                    dialog.dismiss();
+                                }
+                            });
 
 
                     }
@@ -131,6 +149,44 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
                 }
             });
             mTextView.setText(prescName);
+            mLinearLayout = (LinearLayout) mView.findViewById(R.id.itemPrescriptionList);
+            mLinearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final int pos = getAdapterPosition();
+                    final String posSring = Integer.toString(pos);
+                    // check if item still exists
+                    if(pos != RecyclerView.NO_POSITION){
+
+
+                        userDataReference = databaseReference.child("Users").child(user);
+                        userDataReference.child("records").addListenerForSingleValueEvent(new ValueEventListener(){
+
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.child(posSring).child("prescriptions").exists()){
+                                    Records clickedDataItem = prescriptionList.get(pos);
+                                    Intent intent = new Intent(mView.getContext(), RecordView.class);
+                                    intent.putExtra("username", user);
+                                    intent.putExtra("position", pos);
+                                    context.startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(mView.getContext(), "This Record does not have any prescription", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+
+                        });
+
+
+                    }
+                }
+            });
         }
 
         public TextView getmTextView (){
@@ -158,6 +214,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
         view.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
             public boolean onLongClick(View view) {
+                int pos =
                Log.i("MYACTIVITY", "LONGCLICKEDTHISBITCH  " + "ME: "+user);
                 return true;
             }

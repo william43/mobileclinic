@@ -1,8 +1,5 @@
 package com.example.mp.clincdatabase;
 
-/**
- * Created by waboy on 3/12/2018.
- */
 
 public class Appointment {
 

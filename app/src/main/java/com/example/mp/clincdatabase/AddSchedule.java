@@ -18,9 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-/**
- * Created by waboy on 3/11/2018.
- */
 
 public class AddSchedule extends AppCompatActivity{
 
@@ -78,6 +75,15 @@ public class AddSchedule extends AppCompatActivity{
                 // textOut.setAdapter(adapter);
                 textOut.setText(textin.getText().toString());
                 Button buttonRemove = (Button)addView.findViewById(R.id.remove);
+
+                final View.OnClickListener thisListener = new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        ((LinearLayout)addView.getParent()).removeView(addView);
+                    }
+                };
+
+                buttonRemove.setOnClickListener(thisListener);
                 container.addView(addView);
             }
         });

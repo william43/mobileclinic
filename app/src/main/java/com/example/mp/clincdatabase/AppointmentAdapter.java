@@ -7,12 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-/**
- * Created by waboy on 3/12/2018.
- */
 
 public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.ViewHolder> {
     private ArrayList<Appointment> scheduleList;
@@ -38,6 +36,21 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             schedPrescription.setText("Appointment with" + appointment.getPhysician() + "(" + appointment.getTime() +")");
 
 
+            schedPrescription.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, "Edit Function WIll be implemented in the Final Version", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+            schedPrescription.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Toast.makeText(context, "Delete Function WIll be implemented in the Final Version", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
             int pos = getAdapterPosition();
             if(pos != RecyclerView.NO_POSITION){
                 Appointment clickedDataItem = scheduleList.get(pos);

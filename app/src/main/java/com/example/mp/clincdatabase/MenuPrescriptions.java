@@ -16,14 +16,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-/**
- * Created by waboy on 3/10/2018.
- */
+import java.util.ArrayList;
+
 
 public class MenuPrescriptions extends AppCompatActivity{
 
     private Button btnRecordPres;
     private Button btnViewPres;
+
+    private ArrayList<Records> recordTempList;
+    private Records recordTemp;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = database.getReference();
@@ -36,6 +38,8 @@ public class MenuPrescriptions extends AppCompatActivity{
         Intent intent1 = getIntent();
         final String user = intent1.getStringExtra("username");
         Log.i("MYACTIVITY", "Went to the Prescription menu CLass");
+        recordTempList = new ArrayList<>();
+        recordTemp = new Records();
         btnRecordPres = (Button) findViewById(R.id.record_prescription);
         btnRecordPres.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +47,7 @@ public class MenuPrescriptions extends AppCompatActivity{
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(MenuPrescriptions.this);
                 View dialogView = getLayoutInflater().inflate(R.layout.add_record, null);
                 final EditText addPhysician = (EditText) dialogView.findViewById(R.id.recordPhysician);
-                Button record = (Button) dialogView.findViewById(R.id.btnAddRecord);
+                final Button record = (Button) dialogView.findViewById(R.id.btnAddRecord);
 
                 mBuilder.setView(dialogView);
 
@@ -53,7 +57,43 @@ public class MenuPrescriptions extends AppCompatActivity{
                     @Override
                     public void onClick(View view) {
                         Toast.makeText(MenuPrescriptions.this, "Added a record", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
+                        recordTempList.clear();
+                        if(!addPhysician.getText().toString().isEmpty()){
+                            recordTemp.setPhysician(addPhysician.getText().toString());
+                            recordTempList.add(recordTemp);
+
+                            userDataReference = databaseReference.child("Users").child(user).child("records");
+                            userDataReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){
+                                        Records recordTempo;
+                                        for(DataSnapshot childRecord: dataSnapshot.getChildren()){
+                                            recordTempo = childRecord.getValue(Records.class);
+                                            recordTempList.add(recordTempo);
+                                        }
+;
+                                        userDataReference.setValue(recordTempList);
+
+                                    }
+                                    else{
+                                        userDataReference.setValue(recordTempList);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                            dialog.dismiss();
+                        }
+                        else{
+                            Toast.makeText(MenuPrescriptions.this, "Please input a Physician", Toast.LENGTH_SHORT).show();
+                        }
+
+
                     }
                 });
 
@@ -65,21 +105,30 @@ public class MenuPrescriptions extends AppCompatActivity{
             public void onClick(View view) {
 
                 userDataReference = databaseReference.child("Users").child(user);
-                userDataReference.orderByChild("records").equalTo(loginUser.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+                userDataReference.child("records").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.child(""))
+                        if(dataSnapshot.exists()){
+                            Log.i("MYACTIVITY", "I EXIST");
+
+                            Intent intent = new Intent(MenuPrescriptions.this, PrescriptionList.class);
+                            intent.putExtra("username", user);
+                            startActivity(intent);
+
+                        }
+                        else{
+                            Log.i("MYACTIVTY", "I DONT EXIST");
+                            Toast.makeText(MenuPrescriptions.this, "No Record has been establish, please make one", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
-                })
+                });
 
-                Intent intent = new Intent(MenuPrescriptions.this, PrescriptionList.class);
-                intent.putExtra("username", user);
-                startActivity(intent);
+
 
             }
         });
